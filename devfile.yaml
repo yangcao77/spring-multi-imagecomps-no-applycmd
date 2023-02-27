@@ -25,6 +25,13 @@ components:
         uri: docker/Dockerfile
         buildContext: .
         rootRequired: false
+  - name: image-build2
+    image:
+      imageName: java-springboot-image:next
+      dockerfile:
+        uri: docker/Dockerfile
+        buildContext: .
+        rootRequired: false
   - name: kubernetes-deploy
     attributes:
       deployment/replicas: 1
@@ -39,18 +46,3 @@ components:
         - name: http-8081
           targetPort: 8081
           path: /
-commands:
-  - id: build-image
-    apply:
-      component: image-build
-  - id: deployk8s
-    apply:
-      component: kubernetes-deploy
-  - id: deploy
-    composite:
-      commands:
-        - build-image
-        - deployk8s
-      group:
-        kind: deploy
-        isDefault: true
